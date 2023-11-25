@@ -13,6 +13,9 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 //#define LED_INTERFACE "D12"
 const int LED_INTERFACE = 12;
 const int LED_ALARME = 27;
+const int BTN_ATIVADO = 13;
+
+bool ativado = false;
 
 bool isConnected = false;
 
@@ -119,9 +122,15 @@ class CallbacksDeCaracteristica : public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *caracteristica) {
     std::string payload = caracteristica->getValue();
 
-    if (payload.length() > 0) {
-      imprimirPayload( payload.c_str() );
+    if (ativado) {
+       if (payload.length() > 0) {
+        imprimirPayload( payload.c_str() );
+      }
+    } else {
+      lcd.clear();
+      lcd.print("DESARMADO");
     }
+    
   }
   
 };
@@ -154,6 +163,7 @@ class MyServerCallbacks : public BLEServerCallbacks {
 void setup() {
   pinMode(LED_INTERFACE, OUTPUT);
   pinMode(LED_ALARME, OUTPUT);
+  pinMode(BTN_ATIVADO, INPUT);
 
   lcd.begin(16, 2);
   lcd.print("Iniciando...");
@@ -198,6 +208,14 @@ void setup() {
 
 void loop() {
   delay(10);  
+
+  if (digitalRead(BTN_ATIVADO) == HIGH) {
+    //    Serial.println("btn ativado");
+    ativado = true;
+  } else {
+    //    Serial.println("btn desativado");
+    ativado = false;
+  }
 
   if (!isConnected) { // emitir sinal luminoso enquanto não houver conexão extabelecida
     alerta1();
