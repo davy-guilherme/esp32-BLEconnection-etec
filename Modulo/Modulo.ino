@@ -12,7 +12,7 @@ static BLERemoteCharacteristic* caracteristica;
 static BLEAdvertisedDevice* servidor;
 
 //const int pinoSensor = A5;
-const int pinoSensor = 27;
+const int pinoSensor = 2;
 
 //#define LED_RED "D12"
 const int LED_RED = 12;
@@ -130,15 +130,26 @@ void loop() {
   if (encontrado) {
     if (conectado) {
       int valor = 0;
-      if( digitalRead(pinoSensor) == LOW ) {
+      // if( digitalRead(pinoSensor) == LOW ) {
+      //   valor = 0;
+      //   Serial.print( valor );
+      //   Serial.println(" - Tudo certo.");
+      // } else {
+      //   valor = 1;
+      //   Serial.print( valor );
+      //   Serial.println(" - SENSOR ATIVADO!!");
+      // }
+
+      int valorAnalogico = analogRead(pinoSensor);
+      Serial.println("Value: ");
+      Serial.println(valorAnalogico);
+      
+      if (valorAnalogico > 1000) {
         valor = 0;
-        Serial.print( valor );
-        Serial.println(" - Tudo certo.");
       } else {
         valor = 1;
-        Serial.print( valor );
-        Serial.println(" - SENSOR ATIVADO!!");
       }
+      
       
       String nome = "presenca";
 
