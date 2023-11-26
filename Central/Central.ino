@@ -80,11 +80,15 @@ void alerta3 () {
 }
 
 void apitarBuzzer () {
-  digitalWrite(BUZZER_PIEZZO, HIGH);
-  delay(1000);
-  Serial.println("Apitou");
-  digitalWrite(BUZZER_PIEZZO, LOW);
-  delay(500);
+
+  for (int i = 0; i < 5; i++) {
+    digitalWrite(BUZZER_PIEZZO, HIGH);
+    delay(1000);
+    Serial.println("Apitou");
+    digitalWrite(BUZZER_PIEZZO, LOW);
+    delay(1000);
+  }
+  
   
 
 }
