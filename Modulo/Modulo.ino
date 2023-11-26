@@ -12,7 +12,8 @@ static BLERemoteCharacteristic* caracteristica;
 static BLEAdvertisedDevice* servidor;
 
 //const int pinoSensor = A5;
-const int pinoSensor = 2;
+//const int pinoSensor = 2;
+const int pinoSensor = 14;
 
 //#define LED_RED "D12"
 const int LED_RED = 12;
@@ -91,11 +92,11 @@ void conectar () {
 
   cliente->connect( servidor );
 
-//  while (!cliente->isConnected()) {
-//    alerta0();
-//    cliente->connect(servidor);
-//    delay(10);
-//  }
+  while (!cliente->isConnected()) {
+    alerta0();
+    cliente->connect(servidor);
+    delay(10);
+  }
 
   BLERemoteService* servico = cliente->getService( UUID_SER );
 
